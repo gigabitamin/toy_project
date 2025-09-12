@@ -9,6 +9,7 @@ __pycache__
 *.tar
 media/
 backup/
+html_to_pptx_convert_object/icons/
 # etc
 settings_local.py
 chat_profile/

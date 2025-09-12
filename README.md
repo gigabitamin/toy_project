@@ -1,4 +1,7 @@
 # 토이 프로젝트 과자 묶음
 
+# 250912
+- html to pptx convert object test
+
 # 250911
-- toy project - html to pptx convert v0.1
+- toy project - html to pptx convert image v0.1

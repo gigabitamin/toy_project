@@ -834,8 +834,12 @@ class DebugHTMLConverter:
             print(f"메인 콘텐츠 섹션: {content_section}")
             
             if content_section:
-                # Frontend & Backend 섹션
-                frontend_section = content_section.find('div')
+                # 두 개의 섹션을 찾기
+                sections = content_section.find_all('div', recursive=False)
+                print(f"콘텐츠 섹션들 개수: {len(sections)}")
+                
+                # Frontend & Backend 섹션 (첫 번째)
+                frontend_section = sections[0] if len(sections) > 0 else None
                 print(f"Frontend 섹션: {frontend_section}")
                 
                 if frontend_section:
@@ -928,8 +932,8 @@ class DebugHTMLConverter:
                         p2.font.name = 'Arial'
                         p2.font.color.rgb = RGBColor(107, 114, 128)
                 
-                # 학습 성과 섹션
-                learning_section = frontend_section.find_next_sibling('div')
+                # 학습 성과 섹션 (두 번째)
+                learning_section = sections[1] if len(sections) > 1 else None
                 print(f"학습 성과 섹션: {learning_section}")
                 
                 if learning_section:

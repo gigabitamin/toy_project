@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+HTML 스타일 복구 스크립트
+원래 상태로 되돌리기
+"""
+
+import os
+import re
+from pathlib import Path
+
+def restore_html_file(html_file_path):
+    """HTML 파일을 원래 상태로 복구"""
+    try:
+        with open(html_file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        
+        # 원래 스타일로 복구 (간단한 버전)
+        original_styles = '''        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans KR', sans-serif;
+            overflow: hidden;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            background-color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .content-area {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        .title {
+            color: #1e3a8a;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 48px;
+            line-height: 1.2;
+        }
+        .subtitle {
+            color: #3b82f6;
+            font-weight: 500;
+            margin-bottom: 60px;
+            text-align: center;
+            font-size: 28px;
+        }
+        .info-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #e5e7eb;
+            width: 60%;
+        }
+        .info-item {
+            margin: 8px 0;
+            color: #4b5563;
+            font-size: 18px;
+        }
+        .highlight {
+            color: #2563eb;
+            font-weight: 500;
+        }
+        .footer {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            color: #6b7280;
+            font-size: 16px;
+        }
+        .slide-header {
+            padding: 30px 60px 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .slide-title {
+            color: #1e3a8a;
+            font-weight: 700;
+            font-size: 36px;
+            margin: 0;
+        }
+        .intro-text {
+            color: #4b5563;
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .section-title {
+            color: #2563eb;
+            font-weight: 600;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            color: #4b5563;
+            font-size: 18px;
+        }
+        .feature-icon {
+            color: #2563eb;
+            margin-right: 12px;
+            width: 22px;
+        }'''
+        
+        # 기존 스타일을 원래 스타일로 교체
+        content = re.sub(r'<style>.*?</style>', f'<style>\n{original_styles}\n    </style>', content, flags=re.DOTALL)
+        
+        # 파일 저장
+        with open(html_file_path, 'w', encoding='utf-8') as f:
+            f.write(content)
+        
+        print(f"스타일 복구 완료: {html_file_path.name}")
+        return True
+        
+    except Exception as e:
+        print(f"스타일 복구 오류 ({html_file_path.name}): {e}")
+        return False
+
+def main():
+    html_dir = Path(r"C:\Project\gigabitamin\notion\doc_ppt\hearth_chat")
+    
+    print("HTML 스타일 복구 시작")
+    print(f"대상 디렉토리: {html_dir}")
+    print("-" * 50)
+    
+    # HTML 파일 목록 가져오기
+    html_files = list(html_dir.glob("*.html"))
+    
+    if not html_files:
+        print("HTML 파일을 찾을 수 없습니다.")
+        return
+    
+    print(f"발견된 HTML 파일: {len(html_files)}개")
+    
+    # 각 HTML 파일 복구
+    success_count = 0
+    for html_file in html_files:
+        if restore_html_file(html_file):
+            success_count += 1
+    
+    print("-" * 50)
+    print(f"스타일 복구 완료: {success_count}/{len(html_files)}개 파일")
+    
+    if success_count == len(html_files):
+        print("모든 HTML 파일이 원래 상태로 복구되었습니다!")
+    else:
+        print("일부 파일 복구에 실패했습니다.")
+
+if __name__ == "__main__":
+    main()
